@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VariantController;
@@ -10,6 +11,9 @@ use Illuminate\Support\Facades\Route;
 
 // Página principal
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/products', [ShopController::class, 'products'])->name('shop.products');
+Route::get('/product/{product}', [ShopController::class, 'show'])->name('shop.product');
+Route::get('/category/{category:slug}', [ShopController::class, 'category'])->name('shop.category');
 
 // Rutas de autenticación de usuario normal
 Route::get('/dashboard', function () {

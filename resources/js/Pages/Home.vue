@@ -27,9 +27,9 @@ const currentSlide = ref(0);
                     </Link>
                     
                     <!-- Shop Now Button -->
-                    <button class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-blue-600 transition">
+                    <Link :href="route('shop.products')" class="bg-blue-500 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-blue-600 transition">
                         SHOP NOW
-                    </button>
+                    </Link>
                     
                     <!-- Search Bar -->
                     <div class="flex-1 max-w-xl mx-8">
@@ -85,11 +85,10 @@ const currentSlide = ref(0);
                 <div class="max-w-7xl mx-auto px-4">
                     <div class="flex items-center justify-between">
                         <nav class="flex space-x-8 py-4">
-                            <a href="#" class="text-blue-500 font-medium">HOME</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-500">COLLECTIONS</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-500">PRODUCTS</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-500">OTHER PAGES</a>
-                            <a href="#" class="text-gray-600 hover:text-blue-500">BLOG PAGES</a>
+                            <Link :href="route('home')" class="text-blue-500 font-medium">HOME</Link>
+                            <Link :href="route('shop.products')" class="text-gray-600 hover:text-blue-500">COLLECTIONS</Link>
+                            <Link :href="route('shop.products')" class="text-gray-600 hover:text-blue-500">PRODUCTS</Link>
+                            <Link :href="route('login')" class="text-gray-600 hover:text-blue-500">INGRESAR</Link>
                         </nav>
                         <div class="flex items-center space-x-6 text-sm">
                             <a href="#" class="flex items-center text-gray-600 hover:text-blue-500">
@@ -183,12 +182,12 @@ const currentSlide = ref(0);
                     </button>
                     
                     <div class="flex-1 flex justify-center space-x-12">
-                        <div v-for="category in categories" :key="category.id" class="flex flex-col items-center cursor-pointer group">
+                        <Link v-for="category in categories" :key="category.id" :href="route('shop.category', category.slug)" class="flex flex-col items-center cursor-pointer group">
                             <div class="w-20 h-20 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-2 group-hover:shadow-md transition">
                                 <span class="text-3xl">{{ category.icon }}</span>
                             </div>
                             <span class="text-sm text-gray-600 group-hover:text-blue-500">{{ category.name }}</span>
-                        </div>
+                        </Link>
                     </div>
                     
                     <button class="p-2 bg-white rounded-full shadow hover:bg-gray-50">
@@ -256,19 +255,20 @@ const currentSlide = ref(0);
         <section class="py-12">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="grid grid-cols-3 gap-6">
-                    <div v-for="product in featuredProducts.slice(0, 3)" :key="product.id" 
+                    <Link v-for="(product, index) in featuredProducts.slice(0, 3)" :key="product.id" 
+                         :href="route('shop.product', product.id)"
                          class="relative rounded-2xl overflow-hidden group cursor-pointer"
                          :class="[
-                             product.id === 1 ? 'bg-gradient-to-br from-blue-100 to-blue-50' :
-                             product.id === 2 ? 'bg-gradient-to-br from-gray-900 to-gray-800' :
+                             index === 0 ? 'bg-gradient-to-br from-blue-100 to-blue-50' :
+                             index === 1 ? 'bg-gradient-to-br from-gray-900 to-gray-800' :
                              'bg-gradient-to-br from-amber-100 to-orange-50'
                          ]">
                         <div class="p-6 h-80 flex flex-col justify-between">
                             <div>
-                                <h3 class="text-xl font-bold" :class="product.id === 2 ? 'text-white' : 'text-gray-800'">
+                                <h3 class="text-xl font-bold" :class="index === 1 ? 'text-white' : 'text-gray-800'">
                                     {{ product.name }}
                                 </h3>
-                                <p class="text-sm mt-1" :class="product.id === 2 ? 'text-gray-300' : 'text-gray-500'">
+                                <p class="text-sm mt-1" :class="index === 1 ? 'text-gray-300' : 'text-gray-500'">
                                     {{ product.short_description }}
                                 </p>
                             </div>
@@ -278,7 +278,7 @@ const currentSlide = ref(0);
                                 class="w-full h-48 object-contain group-hover:scale-105 transition-transform duration-300"
                             />
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </section>
@@ -288,7 +288,8 @@ const currentSlide = ref(0);
             <div class="max-w-7xl mx-auto px-4">
                 <h2 class="text-2xl font-bold text-center mb-8">TOP SMARTPHONE TRENDS</h2>
                 <div class="grid grid-cols-5 gap-6">
-                    <div v-for="product in newProducts" :key="product.id" 
+                    <Link v-for="product in newProducts" :key="product.id" 
+                         :href="route('shop.product', product.id)"
                          class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition cursor-pointer">
                         <div class="relative">
                             <span v-if="product.is_new" class="absolute top-0 left-0 bg-green-500 text-white text-xs px-2 py-1 rounded">New</span>
@@ -306,7 +307,7 @@ const currentSlide = ref(0);
                                 <span class="text-blue-500 font-bold">${{ product.sale_price || product.price }}</span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </section>
@@ -325,10 +326,10 @@ const currentSlide = ref(0);
                     <div>
                         <h4 class="font-bold mb-4">Quick Links</h4>
                         <ul class="space-y-2 text-gray-400 text-sm">
-                            <li><a href="#" class="hover:text-white">Home</a></li>
-                            <li><a href="#" class="hover:text-white">Products</a></li>
-                            <li><a href="#" class="hover:text-white">Categories</a></li>
-                            <li><a href="#" class="hover:text-white">About Us</a></li>
+                            <li><Link :href="route('home')" class="hover:text-white">Home</Link></li>
+                            <li><Link :href="route('shop.products')" class="hover:text-white">Products</Link></li>
+                            <li><Link :href="route('shop.products')" class="hover:text-white">Categories</Link></li>
+                            <li><Link :href="route('login')" class="hover:text-white">Ingresar</Link></li>
                         </ul>
                     </div>
                     <div>
